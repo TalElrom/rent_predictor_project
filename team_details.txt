@@ -1,0 +1,6 @@
+Team members:
+1. Noam Shayer 315206904
+2. Tal Elrom 207517673  
+
+Link to Repository: 
+https://github.com/TalElrom/rent_predictor_project-
