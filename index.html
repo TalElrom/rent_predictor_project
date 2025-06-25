@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <title>חיזוי מחיר שכירות בתל אביב</title>
+    <style>
+        body {
+            direction: rtl;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            flex-direction: column;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        form {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 600px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        input[list] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+        }
+
+        input[type="checkbox"] {
+            margin-left: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #007BFF;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #0056b3;
+        }
+
+        .prediction-box {
+            background-color: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #007BFF;
+            max-width: 300px;
+        }
+
+        .prediction-box h2 {
+            margin: 0;
+        }
+
+        .prediction-box p {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007BFF;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>חיזוי מחיר שכירות לדירה בתל אביב</h1>
+
+    {% if prediction %}
+        <div class="prediction-box">
+            <h2>המחיר החזוי:</h2>
+            <p>{{ prediction }} ₪</p>
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/predict">
+        <label>מספר חדרים:</label>
+        <input type="number" name="room_num" step="0.5" required>
+
+        <label>שטח (מ"ר):</label>
+        <input type="number" name="area" required>
+
+        <label>קומה:</label>
+        <input type="number" name="floor">
+
+        <label>סה״כ קומות בבניין:</label>
+        <input type="number" name="total_floors">
+
+        <label>סוג הנכס:</label>
+        <select name="property_type" required>
+            <option value="דירה">דירה</option>
+            <option value="דירת גג">דירת גג</option>
+            <option value="דופלקס">דופלקס</option>
+            <option value="דירת גן">דירת גן</option>
+            <option value="פרטי">פרטי</option>
+            <option value="סטודיו">סטודיו</option>
+        </select>
+
+        <label>שכונה:</label><br>
+        <input list="neighborhoods" name="neighborhood" required>
+        <datalist id="neighborhoods">
+            <option value="אזורי חן">
+            <option value="אפקה">
+            <option value="בית שטראוס">
+            <option value="בצרון">
+            <option value="גבעת הרצל">
+            <option value="גני צהלה">
+            <option value="דקר">
+            <option value="הגוש הגדול">
+            <option value="הדר יוסף">
+            <option value="המשתלה">
+            <option value="הצפון החדש החלק הדרומי">
+            <option value="הצפון החדש החלק הצפוני">
+            <option value="הצפון החדש סביבת ככר המדינה">
+            <option value="הצפון הישן החלק הדרום מזרחי">
+            <option value="הצפון הישן החלק הדרום מערבי">
+            <option value="הצפון הישן החלק המרכזי">
+            <option value="הצפון הישן החלק הצפוני">
+            <option value="הקריה">
+            <option value="התקווה">
+            <option value="חוף הצוק">
+            <option value="יד אליהו">
+            <option value="יפו ג">
+            <option value="יפו ד">
+            <option value="כוכב הצפון">
+            <option value="כפיר">
+            <option value="כרם התימנים">
+            <option value="לב תל אביב החלק הדרומי">
+            <option value="לב תל אביב החלק הצפוני">
+            <option value="לבנה">
+            <option value="לינקולן">
+            <option value="מונטיפיורי">
+            <option value="מע&quot;ר צפוני">
+            <option value="מערב">
+            <option value="מרכז יפו מזרחית לשדרות ירושלים">
+            <option value="נאות אפקה א">
+            <option value="נאות אפקה ב">
+            <option value="נוה אביבים">
+            <option value="נוה אליעזר">
+            <option value="נוה ברבור">
+            <option value="נוה חן">
+            <option value="נוה שאנן">
+            <option value="נוה שרת">
+            <option value="נחלת יצחק">
+            <option value="נמל תל אביב">
+            <option value="עג'מי">
+            <option value="עזרא">
+            <option value="פארק צמרת">
+            <option value="פלורנטין">
+            <option value="צהלון">
+            <option value="צפון יפו">
+            <option value="קרית שלום">
+            <option value="רביבים">
+            <option value="רמת אביב">
+            <option value="רמת אביב ג">
+            <option value="רמת אביב החדשה">
+            <option value="רמת החייל">
+            <option value="רמת הטייסים">
+            <option value="רמת ישראל">
+            <option value="שבזי">
+            <option value="שיכון בבלי">
+            <option value="שיכוני חסכון">
+            <option value="שפירא">
+            <option value="תל ברוך צפון">
+            <option value="תל חיים">
+            <option value="תל כביר">
+        </datalist><br><br>
+
+
+        <label>תאריך כניסה:</label>
+        <input type="date" name="entrance_date">
+
+        <label>תשלומים:</label>
+        <input type="number" name="num_of_payments">
+
+        <label>ארנונה חודשית:</label>
+        <input type="number" name="monthly_arnona">
+
+        <label>ועד בית (building tax):</label>
+        <input type="number" name="building_tax">
+
+        <label>שטח גינה:</label>
+        <input type="number" name="garden_area">
+
+        <label><input type="checkbox" name="has_balcony" value="1"> יש מרפסת?</label><br>
+        <label><input type="checkbox" name="has_parking" value="1"> יש חניה?</label><br>
+        <label><input type="checkbox" name="elevator" value="1"> יש מעלית?</label><br>
+        <label><input type="checkbox" name="has_safe_room" value="1"> ממ"ד?</label><br>
+        <label><input type="checkbox" name="is_renovated" value="1"> משופצת?</label><br>
+        <label><input type="checkbox" name="ac" value="1"> ממוזגת?</label><br>
+        <label><input type="checkbox" name="is_furnished" value="1"> מרוהטת?</label><br>
+        <label><input type="checkbox" name="handicap" value="1"> מתאימה לנכים?</label><br>
+        <label><input type="checkbox" name="has_storage" value="1"> יש מחסן?</label><br>
+        <label><input type="checkbox" name="has_bars" value="1"> יש סורגים?</label><br><br>
+
+        <input type="submit" value="הערך שכר דירה">
+    </form>
+
+</body>
+</html>
